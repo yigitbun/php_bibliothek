@@ -1,4 +1,9 @@
 <?php
+ini_set("display_errors", 1);
+ini_set("track_errors", 1);
+ini_set("html_errors", 1);
+error_reporting(E_ALL);
+
 $host = "localhost";
 $username = "byigit";
 $password = "hamm";
@@ -12,6 +17,28 @@ try {
     // echo 'Erfolgreich verbunden';
 } catch (PDOException $e) {
     echo "Verbindung fehlgeschlagen";
+}
+
+$errors = array('buchTitel' => '', 'desc' => '');
+
+if (isset($_POST['submit'])) {
+
+    if (empty($_POST['buchTitel'])) {
+        $title = 'Bitte einen Buchtitel eingeben! <br>';
+    } else {
+        $title = $_POST['buchTitel'];
+        if (!preg_match('/^[a-zA-Z\s]+$/', $title)) {
+            $title =  'Buchtitel darf nur aus Buchstaben und Leerzeichen bestehen!';
+        }
+    }
+    if (empty($_POST['desc'])) {
+        $desc = 'Bitte eine Beschreibung eingeben! <br>';
+    } else {
+        $desc = $_POST['desc'];
+        if (!preg_match('/^[a-zA-Z\s]+$/', $desc)) {
+            $desc = 'Beschreibung darf nur aus Buchstaben und Leerzeichen bestehen!';
+        }
+    }
 }
 
 ?>
@@ -30,18 +57,20 @@ try {
 <body>
     <div class="container">
         <h1>Unsere Bibliothek</h1>
-        <form>
+        <form action="index.php" method="POST">
             <h3>Neues Buch anlegen</h3>
             <div class="mb-3">
                 <label for="buchTitel" class="form-label">Buchtitel</label>
-                <input type="text" class="form-control" id="buchTitel">
+                <input type="text" class="form-control" id="buchTitel" name="buchTitel">
+                <div class="text-danger"><?php echo $errors['buchTitel']; ?></div>
             </div>
             <div class="mb-3">
-                <label for="buchTitel" class="form-label">Kurzbeschreibung</label>
-                <textarea class="form-control" placeholder="Gebe hier eine kurze Beschreibung des Buches ein (max. 150 Zeichen)." id="kurzb"></textarea>
+                <label for="desc" class="form-label">Kurzbeschreibung</label>
+                <textarea class="form-control" placeholder="Gebe hier eine kurze Beschreibung des Buches ein (max. 150 Zeichen)." id="desc" name="desc"></textarea>
+                <div class="text-danger"><?php echo $errors['desc']; ?></div>
             </div>
             <div class="mb-3">
-                <label for="buchTitel" class="form-label">Verlag</label>
+                <label for="verlag" class="form-label">Verlag</label>
                 <select class="form-select" aria-label="Default select example">
                     <option selected>Verlag auswählen</option>
                     <option value="1">One</option>
@@ -55,7 +84,7 @@ try {
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Die in diesem Formular eingegebene Daten werden wervendet, um ein neues Buch in unserer Datenbank anzulegen. Die Daten sind durch Absenden des Formular für die Öffentlichkeit einsehbar.</label>
             </div>
-            <button type="submit" class="btn btn-primary">Neues Buch erstellen</button>
+            <button type="submit" class="btn btn-primary" name="submit" value="submit">Neues Buch erstellen</button>
         </form>
     </div>
     <br>
