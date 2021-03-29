@@ -1,4 +1,20 @@
-<?php  ?>
+<?php
+$host = "localhost";
+$username = "byigit";
+$password = "hamm";
+$database = "bibliothek";
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
+
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // echo 'Erfolgreich verbunden';
+} catch (PDOException $e) {
+    echo "Verbindung fehlgeschlagen";
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
