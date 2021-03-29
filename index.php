@@ -15,29 +15,36 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // echo 'Erfolgreich verbunden';
+
 } catch (PDOException $e) {
     echo "Verbindung fehlgeschlagen";
 }
 
-$errors = array('buchTitel' => '', 'desc' => '');
+// Error array erstellten
+
+$errors = array('buchTitel' => '', 'desc' => '', 'verlag' => '');
+
+// 'submit' Anfrage stellen
 
 if (isset($_POST['submit'])) {
-
     if (empty($_POST['buchTitel'])) {
-        $title = 'Bitte einen Buchtitel eingeben! <br>';
+        $errors['buchTitel'] = 'Bitte einen Buchtitel eingeben!';
     } else {
-        $title = $_POST['buchTitel'];
-        if (!preg_match('/^[a-zA-Z\s]+$/', $title)) {
-            $title =  'Buchtitel darf nur aus Buchstaben und Leerzeichen bestehen!';
+        $buchTitel = $_POST['buchTitel'];
+        if (!preg_match('/^[a-zA-Z\s]+$/', $buchTitel)) {
+            $errors['buchTitel'] = 'Buchtitel darf nur aus Buchstaben und Leerzeichen bestehen!';
         }
     }
     if (empty($_POST['desc'])) {
-        $desc = 'Bitte eine Beschreibung eingeben! <br>';
+        $errors['desc'] = 'Bitte eine Kurzbeschreibung eingeben!';
     } else {
         $desc = $_POST['desc'];
         if (!preg_match('/^[a-zA-Z\s]+$/', $desc)) {
-            $desc = 'Beschreibung darf nur aus Buchstaben und Leerzeichen bestehen!';
+            $errors['desc'] = 'Kurzbeschreibung darf nur aus Buchstaben und Leerzeichen bestehen!';
         }
+    }
+    if (empty($_POST['verlag'])) {
+        $errors['verlag'] = 'Bitte einen Verlag auswählen!';
     }
 }
 
@@ -71,12 +78,13 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="mb-3">
                 <label for="verlag" class="form-label">Verlag</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Verlag auswählen</option>
+                <select class="form-select" aria-label="Default select example" name="verlag">
+                    <option selected value="0">Verlag auswählen</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
+                <div class="text-danger"><?php echo $errors['verlag']; ?></div>
             </div>
 
 
