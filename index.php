@@ -1,40 +1,4 @@
 <?php
-ini_set("display_errors", 1);
-ini_set("track_errors", 1);
-ini_set("html_errors", 1);
-error_reporting(E_ALL);
-
-$host = "localhost";
-$username = "byigit";
-$password = "hamm";
-$database = "bibliothek";
-
-// Verbindung zur Datenbank herstellen
-$conn = mysqli_connect('localhost', 'byigit', 'hamm', 'bibliothek');
-
-// Verbindungsprüfung
-if (!$conn) {
-    echo "Verbindung fehlgeschlagen" . mysqli_connect_error();
-}
-
-// Anfrage für Bücher schreiben
-
-$sql = 'SELECT title, description FROM books';
-
-// eine Abfrage machen & Ergebnis erhalten
-
-$result = mysqli_query($conn, $sql);
-
-// die resultierenden Zeilen als Array holen
-
-$books = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-mysqli_free_result($result);
-
-mysqli_close($conn);
-
-
-
 // PDO Variante
 
 // try {
@@ -82,7 +46,6 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-<p><?php $auswahl; ?></p>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,7 +72,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="mb-3">
                 <label for="desc" class="form-label">Kurzbeschreibung</label>
-                <textarea class="form-control" placeholder="Gebe hier eine kurze Beschreibung des Buches ein (max. 150 Zeichen)." id="desc" name="desc" value="<?php echo $desc ?>"></textarea>
+                <textarea class="form-control" placeholder="Gebe hier eine kurze Beschreibung des Buches ein (max. 150 Zeichen)." id="desc" name="desc"><?php echo $desc ?></textarea>
                 <div class="text-danger"><?php echo $errors['desc']; ?></div>
             </div>
             <div class="mb-3">
@@ -125,7 +88,7 @@ if (isset($_POST['submit'])) {
 
 
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Die in diesem Formular eingegebene Daten werden wervendet, um ein neues Buch in unserer Datenbank anzulegen. Die Daten sind durch Absenden des Formular für die Öffentlichkeit einsehbar.</label>
             </div>
             <button type="submit" class="btn btn-primary" name="submit" value="submit">Neues Buch erstellen</button>
