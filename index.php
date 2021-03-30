@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-
+<p><?php $auswahl; ?></p>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -162,6 +162,7 @@ if (isset($_POST['submit'])) {
                                 <h5 class="card-title"><?php echo htmlspecialchars($book['title']); ?></h5>
                                 <p class="card-text"><?php echo htmlspecialchars($book['description']); ?></p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <p><?php $auswahl; ?></p>
                             </div>
 
                         </div>
