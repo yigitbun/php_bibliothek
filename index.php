@@ -33,18 +33,6 @@ if (isset($_POST['update'])) {
     }
 }
 
-// if (isset($_GET['id'])) {
-//     $id = mysqli_real_escape_string($conn, $_GET['id']);
-
-//     $sql = "SELECT * FROM books WHERE id = $id";
-
-//     $result = mysqli_query($conn, $sql);
-
-//     $book = mysqli_fetch_assoc($result);
-
-//     mysqli_free_result($result);
-//     mysqli_close($conn);
-// }
 ?>
 <div class="container">
     <h2>Unsere Bücher</h2>
@@ -72,11 +60,14 @@ if (isset($_POST['update'])) {
                             <p><img src="img/book.png" alt="" style="width:15rem;"></p>
                             <h5 class="card-title"><?php echo htmlspecialchars($book['title']); ?></h5>
                             <p class="card-text"><?php echo htmlspecialchars($book['description']); ?></p>
+
+                            <!-- DELETE FORM -->
+
                             <form action="index.php" method="POST">
                                 <input type="hidden" name="id_to_delete" value="<?php echo $book['id']; ?>">
-                                <input class="btn btn-primary" type="submit" name="update" value="Update"><br><br>
+                                <input class="btn btn-success" type="submit" name="update" value="Update"><br><br>
                                 <input type="hidden" name="id_to_update" value="<?php echo $book['id']; ?>">
-                                <input class="btn btn-primary" type="submit" name="delete" value="Delete">
+                                <input class="btn btn-danger" type="submit" name="delete" value="Delete">
                             </form>
                         </div>
                     </div>
@@ -86,12 +77,6 @@ if (isset($_POST['update'])) {
 
     </div>
 </div>
-<!-- DELETE FORM -->
-<form>
-    <input type="hidden" name="id_to_delete" value="<?php echo $book['id']; ?>">
-    <input class="btn btn-primary" type="submit" name="delete" value="Delete">
-    <input>
-</form>
 
 
 <?php require_once 'templates/footer.php'; ?>
