@@ -1,6 +1,50 @@
 <?php
 include 'config/db_connect.php';
 require_once 'templates/header.php';
+
+if (isset($_POST['delete'])) {
+
+    $id_to_delete = mysqli_real_escape_string($conn, $_POST['id_to_delete']);
+
+    $sql = "DELETE FROM books WHERE id = $id_to_delete";
+
+    if (mysqli_query($conn, $sql)) {
+        // success
+        header('Location: index.php');
+    } {
+        // failure
+        echo 'query error: ' . mysqli_error($conn);
+    }
+}
+if (isset($_POST['update'])) {
+
+    $id_to_update = mysqli_real_escape_string($conn, $_POST['id_to_update']);
+
+
+
+    $sql = "UPDATE books SET title='$buchTitel' WHERE id = $id_to_update";
+
+    if (mysqli_query($conn, $sql)) {
+        // success
+        header('Location: add.php');
+    } {
+        // failure
+        echo 'query error: ' . mysqli_error($conn);
+    }
+}
+
+// if (isset($_GET['id'])) {
+//     $id = mysqli_real_escape_string($conn, $_GET['id']);
+
+//     $sql = "SELECT * FROM books WHERE id = $id";
+
+//     $result = mysqli_query($conn, $sql);
+
+//     $book = mysqli_fetch_assoc($result);
+
+//     mysqli_free_result($result);
+//     mysqli_close($conn);
+// }
 ?>
 <div class="container">
     <h2>Unsere Bücher</h2>
@@ -28,8 +72,12 @@ require_once 'templates/header.php';
                             <p><img src="img/book.png" alt="" style="width:15rem;"></p>
                             <h5 class="card-title"><?php echo htmlspecialchars($book['title']); ?></h5>
                             <p class="card-text"><?php echo htmlspecialchars($book['description']); ?></p>
-                            <a href="#" class="btn btn-primary">Bearbeiten</a>
-                            <a href="#" class="btn btn-primary">Löchen</a>
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="id_to_delete" value="<?php echo $book['id']; ?>">
+                                <input class="btn btn-primary" type="submit" name="update" value="Update"><br><br>
+                                <input type="hidden" name="id_to_update" value="<?php echo $book['id']; ?>">
+                                <input class="btn btn-primary" type="submit" name="delete" value="Delete">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -38,6 +86,12 @@ require_once 'templates/header.php';
 
     </div>
 </div>
+<!-- DELETE FORM -->
+<form>
+    <input type="hidden" name="id_to_delete" value="<?php echo $book['id']; ?>">
+    <input class="btn btn-primary" type="submit" name="delete" value="Delete">
+    <input>
+</form>
 
 
 <?php require_once 'templates/footer.php'; ?>

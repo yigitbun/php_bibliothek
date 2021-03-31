@@ -14,5 +14,5 @@ $conn = mysqli_connect('localhost', 'byigit', 'hamm', 'bibliothek');
 
 // Verbindungsprüfung
 if (!$conn) {
-    echo "Verbindung fehlgeschlagen" . mysqli_connect_error();
+    die("Connection failed: " . mysqli_connect_error());
 }

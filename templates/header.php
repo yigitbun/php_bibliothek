@@ -2,7 +2,7 @@
 
 // Anfrage für Bücher schreiben
 
-$sql = 'SELECT title, description FROM books';
+$sql = 'SELECT title, description, id FROM books';
 
 // eine Abfrage machen & Ergebnis erhalten
 
